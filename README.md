@@ -1,4 +1,4 @@
-# birthday-planning
+# Birthday Planner
 An app to organize birthdays
 
 # Useful links:
