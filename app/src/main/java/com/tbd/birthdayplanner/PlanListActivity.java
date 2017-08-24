@@ -20,8 +20,8 @@ import android.widget.ListView;
 public class PlanListActivity extends FragmentActivity {
 
     static final int PAGE_NUMBER = 3;
-    MyAdapter mAdapter;
-    ViewPager mPager;
+    PlanListAdapter adapter;
+    ViewPager pager;
 
     ImageButton planButton;
     ImageButton followButton;
@@ -42,12 +42,12 @@ public class PlanListActivity extends FragmentActivity {
             }
         });
 
-        mAdapter = new MyAdapter(getSupportFragmentManager());
+        adapter = new PlanListAdapter(getSupportFragmentManager());
 
-        mPager = (ViewPager)findViewById(R.id.pager);
-        mPager.setAdapter(mAdapter);
+        pager = (ViewPager)findViewById(R.id.pager);
+        pager.setAdapter(adapter);
         createMenuButtons();
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             public void onPageSelected(int position) {
@@ -69,7 +69,7 @@ public class PlanListActivity extends FragmentActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPager.setCurrentItem(indexFinal);
+                    pager.setCurrentItem(indexFinal);
                 }
             });
         }
@@ -89,8 +89,8 @@ public class PlanListActivity extends FragmentActivity {
         }
     }
 
-    public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm) {
+    public static class PlanListAdapter extends FragmentPagerAdapter {
+        public PlanListAdapter(FragmentManager fm) {
             super(fm);
         }
 
