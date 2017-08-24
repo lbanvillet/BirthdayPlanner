@@ -20,10 +20,13 @@ import android.widget.ListView;
 public class PlanListActivity extends FragmentActivity {
 
     static final int PAGE_NUMBER = 3;
-
     MyAdapter mAdapter;
-
     ViewPager mPager;
+
+    ImageButton planButton;
+    ImageButton followButton;
+    ImageButton configButton;
+    ImageButton[] buttonArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +46,23 @@ public class PlanListActivity extends FragmentActivity {
 
         mPager = (ViewPager)findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
-
         createMenuButtons();
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageSelected(int position) {
+                changeButtonDisplay(position);
+            }
+        });
     }
 
     private void createMenuButtons() {
-        ImageButton planButton = (ImageButton)findViewById(R.id.plan);
+        planButton = (ImageButton)findViewById(R.id.plan);
         planButton.setSelected(true);
         planButton.setBackgroundColor(0xFF5262AF);
-        ImageButton followButton = (ImageButton)findViewById(R.id.follow);
-        ImageButton configButton = (ImageButton)findViewById(R.id.config);
-        final ImageButton[] buttonArray = new ImageButton[]{planButton, followButton, configButton};
+        followButton = (ImageButton)findViewById(R.id.follow);
+        configButton = (ImageButton)findViewById(R.id.config);
+        buttonArray = new ImageButton[]{planButton, followButton, configButton};
         for(int index = 0; index < buttonArray.length; index++){
             ImageButton button = buttonArray[index];
             final int indexFinal = index;
@@ -61,19 +70,22 @@ public class PlanListActivity extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     mPager.setCurrentItem(indexFinal);
-                    ImageButton selectedButton = (ImageButton) v;
-                    selectedButton.setSelected(true);
-                    selectedButton.setBackgroundColor(0xFF5262AF);
-
-                    //Unselect other buttons
-                    for(int indexOtherButton = 0; indexOtherButton < buttonArray.length; indexOtherButton++){
-                        if(indexOtherButton != indexFinal){
-                            buttonArray[indexOtherButton].setSelected(false);
-                            buttonArray[indexOtherButton].setBackgroundColor(0xFF3F51B5);
-                        }
-                    }
                 }
             });
+        }
+    }
+
+    private void changeButtonDisplay(int indexFinal) {
+        ImageButton selectedButton = buttonArray[indexFinal];
+        selectedButton.setSelected(true);
+        selectedButton.setBackgroundColor(0xFF5262AF);
+
+        //Unselect other buttons
+        for(int indexOtherButton = 0; indexOtherButton < buttonArray.length; indexOtherButton++){
+            if(indexOtherButton != indexFinal){
+                buttonArray[indexOtherButton].setSelected(false);
+                buttonArray[indexOtherButton].setBackgroundColor(0xFF3F51B5);
+            }
         }
     }
 
